@@ -29,6 +29,35 @@ class transport {
         this->weelsName = weelsName;
         this->weelsNumber = weelsNumber;
         this->oilType = oilType;
+        std::cout << "transport " << model << " created" << std::endl;
+    }
+
+    transport(const transport& other) 
+    {
+        model = other.model;
+        capacity = other.capacity;
+        speed = other.speed;
+        fuelType = other.fuelType;
+        fuel = other.fuel;
+        weelsName = other.weelsName;
+        weelsNumber = other.weelsNumber;
+        oilType = other.oilType;
+        std::cout << "transport " << model << " copied" << std::endl;
+    }
+
+    transport& operator=(const transport& other)
+    {
+        model = other.model;
+        capacity = other.capacity;
+        speed = other.speed;
+        fuelType = other.fuelType;
+        fuel = other.fuel;
+        weelsName = other.weelsName;
+        weelsNumber = other.weelsNumber;
+        oilType = other.oilType;
+
+        std::cout << "transport " << model << " assigned" << std::endl;
+        return *this;
     }
 
     void hung()
@@ -171,6 +200,10 @@ int main()
     std::cout << "Enter weelsNumber: ";
     std::cin >> weelsNumber;
     transport car(model, capacity, maxSpeed, fuelType, fuel, weelsName, weelsNumber, oilType);
+
+    transport car2(car);
+
+    transport car3 = car;
 
     while (true)
     {
