@@ -9,7 +9,8 @@ private:
 
     public:
 
-    matrix(int r, int c){
+    matrix(int r, int c)
+    {
         rows = r;
         cols = c;
         matrixData = new int*[rows];
@@ -17,6 +18,39 @@ private:
         {
             matrixData[i] = new int[cols];
         }
+    }
+    
+    matrix(const matrix& other)
+    {
+        rows = other.rows;
+        cols = other.cols;
+        matrixData = new int*[rows];
+        for(int i = 0; i < rows; i++)
+        {
+            matrixData[i] = new int[cols];
+            for(int j = 0; j < cols; j++)
+            {
+                matrixData[i][j] = other.matrixData[i][j];
+            }
+        }
+        std::cout << "Copy constructor called" << std::endl;
+    }
+
+    matrix& operator=(const matrix& other)
+    {
+        rows = other.rows;
+        cols = other.cols;
+        matrixData = new int*[rows];
+        for(int i = 0; i < rows; i++)
+        {
+            matrixData[i] = new int[cols];
+            for(int j = 0; j < cols; j++)
+            {
+                matrixData[i][j] = other.matrixData[i][j];
+            }
+        }
+        std::cout << "Assignment operator called" << std::endl;
+        return *this;
     }
 
     void init()
@@ -86,6 +120,10 @@ int main()
     std::cout << "Transposed Matrix:" << std::endl;
     mat.print();
     
+    matrix mat2 = mat; // Calls copy constructor
+    std::cout << "Copied Matrix:" << std::endl;
+    matrix mat3(4, 4);
+    mat3 = mat; // Calls assignment operator
 
     return 0;
 }
