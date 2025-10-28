@@ -87,7 +87,7 @@ private:
         }
     }
 
-    void turnMatrix()
+    void swapp()
     {
         for(int i = 0; i < rows; i++)
         {
@@ -99,7 +99,19 @@ private:
             }
         }
     }
-
+    void turn()
+    {
+        this->swapp();
+        for (int j = 0; j < cols; ++j)
+        {
+            for (int i = 0; i < rows / 2; ++i)
+            {
+                int temp = matrixData[i][j];
+                matrixData[i][j] = matrixData[rows - 1 - i][j];
+                matrixData[rows - 1 - i][j] = temp;
+            }
+        }
+    }
     ~matrix()
     {
         for(int i = 0; i < rows; i++)
@@ -112,18 +124,21 @@ private:
 
 int main()
 {
-    matrix mat(4, 4);
-    mat.initRandom();
+    matrix mat(10, 10);
+    mat.init();
     std::cout << "Original Matrix:" << std::endl;
     mat.print();
-    mat.turnMatrix();
+    mat.swapp();
     std::cout << "Transposed Matrix:" << std::endl;
     mat.print();
-    
-    matrix mat2 = mat; // Calls copy constructor
+    std::cout << "Turn matrix" << std::endl;
+    mat.turn();
+    mat.print();
+
+    matrix mat2 = mat;
     std::cout << "Copied Matrix:" << std::endl;
     matrix mat3(4, 4);
-    mat3 = mat; // Calls assignment operator
+    mat3 = mat;
 
     return 0;
 }

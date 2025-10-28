@@ -108,6 +108,15 @@ public:
     {
         engine->addOil(amount);
     }
+    void printAll()
+    {
+        std::cout << "Model: " << model << std::endl;
+        std::cout << "Color: " << color << std::endl;
+        std::cout << "Year: " << year << std::endl;
+        std::cout << "Engine: " << std::endl;
+        engine->printOilType();
+        engine->printFuelType();
+    }
 
 };
 
@@ -150,28 +159,95 @@ public:
 
 };
 
+class parking
+{
+private:
+    int freeSlots;
+    int occupiedSlots;
+    int totalSlots;
+    int pointToPark;
+    Car** cars;
+public:
+    parking(int ts)
+    {
+        this->totalSlots = ts;
+        this->freeSlots = ts;
+        this->occupiedSlots = 0;
+        this->cars = new Car*[ts];
+        for (int i = 0; i < ts; i++)
+        {
+            cars[i] = nullptr;
+        }
+    }
+    void park(Car* c)
+    {
+        if (freeSlots > 0)
+        {
+            cars[pointToPark] = c;
+            occupiedSlots++;
+            freeSlots--;
+            pointToPark++;
+            if (pointToPark == totalSlots) {
+                pointToPark = 0;
+            }
+        }
+    }
+    void unpark(int slot)
+    {
+        if (slot < occupiedSlots)
+        {
+            cars[slot] = nullptr;
+            occupiedSlots--;
+            freeSlots++;
+        }
+    }
+    void printAll()
+    {
+        for (int i = 0; i < occupiedSlots; i++)
+        {
+            std::cout << "Slot " << i << ": ";
+            cars[i]->printAll();
+        }
+    }
+};
+
 int main()
 {
-    Engine bmwEngine(250, "V6", 6, "Castrol", 4, "Gasoline", 40);
-    Engine toyotaEngine(180, "Inline-4", 4, "Mobil", 3, "Gasoline", 35);
+        Engine bmwEngine(250, "V6", 6, "Castrol", 4, "Gasoline", 40);
+        Engine toyotaEngine(180, "Inline-4", 4, "Mobil", 3, "Gasoline", 35);
+    
+        Car bmw("BMW M3", "Black", 2020, &bmwEngine);
+        Car toyota("Toyota Camry", "White", 2019, &toyotaEngine);
+    
+        Driver razz("Razz", true, &bmw);
+    
+        razz.drive();
+        razz.fillFuel(10);
+        razz.fillOil(1);
+        razz.stopDriving();
 
-    Car bmw("BMW M3", "Black", 2020, &bmwEngine);
-    Car toyota("Toyota Camry", "White", 2019, &toyotaEngine);
+        std::cout << std::endl;
+    
+        razz.changeCar(&toyota);
+        razz.drive();
+        toyota.changeColor("Silver");
+        toyota.printColor();
+        toyota.printYear();
+        razz.stopDriving();
+    
+        parking p(3);
+        p.park(&bmw);
+        p.park(&toyota);
+        p.printAll();
 
-    Driver razz("Razz", true, &bmw);
+        std::cout << "Unpark slot 0" << std::endl;
+        p.unpark(0);
+        p.printAll();
 
-    razz.drive();
-    razz.fillFuel(10);
-    razz.fillOil(1);
-    razz.stopDriving();
-
-    std::cout << std::endl;
-    razz.changeCar(&toyota);
-    razz.drive();
-    toyota.changeColor("Silver");
-    toyota.printColor();
-    toyota.printYear();
-    razz.stopDriving();
+        std::cout << "Direct car details" << std::endl;
+        bmw.printAll();
+        std::cout << std::endl;
+        toyota.printAll();
 
     return 0;
 }
