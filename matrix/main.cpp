@@ -19,7 +19,7 @@ private:
             matrixData[i] = new int[cols];
         }
     }
-    
+
     matrix(const matrix& other)
     {
         rows = other.rows;
@@ -38,6 +38,13 @@ private:
 
     matrix& operator=(const matrix& other)
     {
+
+        for(int i = 0; i < rows; i++)
+        {
+            delete[] matrixData[i];
+        }
+        delete[] matrixData;
+
         rows = other.rows;
         cols = other.cols;
         matrixData = new int*[rows];
@@ -52,6 +59,72 @@ private:
         std::cout << "Assignment operator called" << std::endl;
         return *this;
     }
+
+    matrix operator*(const matrix& other)
+    {
+        if(cols != other.rows)
+        {
+            std::cout << "Cols and rows are not equal!!!" << std::endl;
+            return *this;
+        }
+        else
+        {
+            matrix result(cols,other.rows);
+            for(int i = 0; i < rows; i++)
+            {
+                for(int j = 0; j < other.cols; j++)
+                {
+                    result.matrixData[i][j] = 0;
+                    for(int k = 0; k < cols; k++)
+                    {
+                        result.matrixData[i][j] += matrixData[i][k] * other.matrixData[k][j];
+                    }
+                }
+            }
+            return result;
+        }
+    }
+
+    matrix operator*(const int num)
+    {
+        for (int i = 0; i < rows; ++i)
+            {
+            for (int j = 0; j < cols; ++j)
+            {
+                this->matrixData[i][j] *= num;
+            }
+        }
+
+        return *this;
+    }
+
+    matrix operator++()
+    {
+        for(int i = 0; i < rows; i++)
+        {
+            for(int j = 0; j < cols; j++)
+            {
+                this->matrixData[i][j]++;
+            }
+        }
+        return *this;
+    }
+    matrix operator++(int)
+    {
+        matrix temp= *this;
+
+        for(int i = 0; i < rows; i++)
+        {
+            for(int j = 0; j < cols; j++)
+            {
+                this->matrixData[i][j]++;
+            }
+        }
+
+        return temp;
+    }
+
+    friend std::ostream& operator<<(std::ostream& out, const matrix& matrix);
 
     void init()
     {
@@ -114,6 +187,7 @@ private:
     }
     ~matrix()
     {
+        std::cout << "Destructor called" << std::endl;
         for(int i = 0; i < rows; i++)
         {
             delete[] matrixData[i];
@@ -122,23 +196,34 @@ private:
     }
 };
 
+std::ostream& operator<<(std::ostream& out, const matrix& matrix)
+{
+    for(int i = 0; i < matrix.rows; i++)
+    {
+        for(int j = 0; j < matrix.cols; j++)
+        {
+            out << matrix.matrixData[i][j] << " ";
+        }
+        out << std::endl;
+    }
+
+    return out;
+}
+
 int main()
 {
     matrix mat(10, 10);
     mat.init();
-    std::cout << "Original Matrix:" << std::endl;
-    mat.print();
-    mat.swapp();
-    std::cout << "Transposed Matrix:" << std::endl;
-    mat.print();
-    std::cout << "Turn matrix" << std::endl;
-    mat.turn();
-    mat.print();
+    matrix mat1(10,10);
+    mat1.initRandom();
 
-    matrix mat2 = mat;
-    std::cout << "Copied Matrix:" << std::endl;
-    matrix mat3(4, 4);
-    mat3 = mat;
+    mat1 = mat1 * mat;
+
+    std::cout << mat1 << std::endl;
+
+    mat1++;
+
+    std::cout << mat1 << std::endl;
 
     return 0;
 }
