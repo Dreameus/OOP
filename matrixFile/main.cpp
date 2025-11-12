@@ -1,23 +1,17 @@
 #include <iostream>
 #include <fstream>
-#include <random>
 #include "matrix.h"
+#include "functions.h"
 
 int main()
 {
-    std::ofstream file("output.txt");
+    std::string name = "output.txt";
 
-    matrix mat(10, 10);
-    mat.init();
+    matrix mat(name);
 
-    if (file.is_open()) 
-    { 
-        file << mat;
-    }
-    else
-    {
-        std::cout << "Error opening file!" << std::endl;
-    }
+    std::cout << mat;
+
+    
 
     return 0;
 }

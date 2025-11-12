@@ -8,6 +8,7 @@ private:
     int** mat_m = nullptr;
 public:
     matrix(int rows, int cols);
+    matrix(std::string name);
     matrix(const matrix& other);
     matrix& operator=(const matrix& other);
     ~matrix();

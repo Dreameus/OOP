@@ -1,5 +1,7 @@
 #include <iostream>
 #include <random>
+#include <fstream>
+#include <sstream>
 #include "matrix.h"
 
 matrix::matrix(int rows, int cols)
@@ -12,6 +14,60 @@ matrix::matrix(int rows, int cols)
     {
         mat_m[i] = new int[cols];
     }
+}
+
+matrix::matrix(std::string name)
+{
+    std::ifstream file(name);
+    if (!file.is_open()) 
+    {
+        matrix(0, 0);
+    }
+
+    int rows = 0, cols = 0;
+    std::string line;
+
+    while (std::getline(file, line)) 
+    {
+        rows++;
+
+        if (cols == 0) 
+        {
+            std::istringstream iss(line);
+
+            int temp;
+            int count = 0;
+
+            while (iss >> temp) 
+            {
+                count++;
+            }
+            cols = count;
+        }
+    }
+
+    file.clear();
+    file.seekg(0, std::ios::beg);
+
+    this->rows_m = rows;
+    this->cols_m = cols;
+
+
+    this->mat_m = new int*[rows_m];
+    for (int i = 0; i < rows_m; i++) 
+    {
+        this->mat_m[i] = new int[cols_m];
+    }
+
+    for (int i = 0; i < rows_m; i++) 
+    {
+        for (int j = 0; j < cols_m; j++) 
+        {
+            file >> this->mat_m[i][j];
+        }
+    }
+
+    file.close();
 }
 
 matrix::matrix(const matrix& other)
