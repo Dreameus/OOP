@@ -11,7 +11,5 @@ int main()
 
     std::cout << mat;
 
-    
-
     return 0;
 }
