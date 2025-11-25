@@ -203,3 +203,36 @@ std::ostream& operator<<(std::ostream& out, const matrix& matrix)
 
     return out;
 }
+
+matrix::matrix(matrix&& other)
+{
+    std::cout << "Move constructor called" << std::endl;
+    rows = other.rows;
+    cols = other.cols;
+    matrixData = other.matrixData;
+    other.matrixData = nullptr;
+    other.rows = 0;
+    other.cols = 0;
+}
+
+matrix& matrix::operator=(matrix&& other)
+{
+    std::cout << "Move assignment operator called" << std::endl;
+    if (this != &other)
+    {
+        for(int i = 0; i < rows; i++)
+        {
+            delete[] matrixData[i];
+        }
+        delete[] matrixData;
+
+        rows = other.rows;
+        cols = other.cols;
+        matrixData = other.matrixData;
+
+        other.matrixData = nullptr;
+        other.rows = 0;
+        other.cols = 0;
+    }
+    return *this;
+}

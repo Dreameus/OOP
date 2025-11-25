@@ -13,9 +13,9 @@ int main()
 
     std::cout << mat1 << std::endl;
 
-    mat1++;
+    matrix mat2 = std::move(mat1);
 
-    std::cout << mat1 << std::endl;
+    std::cout << mat2 << std::endl;
 
     return 0;
 }

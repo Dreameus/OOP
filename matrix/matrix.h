@@ -22,6 +22,8 @@ public:
     void swapp();
     void turn();
     ~matrix();
+    matrix(matrix&& other);
+    matrix& operator=(matrix&& other);
 };
 
 #endif
