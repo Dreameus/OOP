@@ -2,11 +2,11 @@
 #define MATRIX_H
 
 class matrix{
-private:
+protected:
     int rows;
     int cols;
     int** matrixData;
-
+    static int count;
 public:
     matrix(int r, int c);
     matrix(const matrix& other);
@@ -24,6 +24,7 @@ public:
     ~matrix();
     matrix(matrix&& other);
     matrix& operator=(matrix&& other);
+    static int getCount();
 };
 
 #endif

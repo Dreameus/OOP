@@ -4,18 +4,11 @@
 
 int main()
 {
-    matrix mat(10, 10);
-    mat.init();
-    matrix mat1(10,10);
-    mat1.initRandom();
+    matrix mat1(3, 3);
+    matrix mat2(3, 3);
+    matrix mat3(3, 3);
 
-    mat1 = mat1 * mat;
-
-    std::cout << mat1 << std::endl;
-
-    matrix mat2 = std::move(mat1);
-
-    std::cout << mat2 << std::endl;
-
+    std::cout << matrix::getCount() << std::endl;
+    
     return 0;
 }

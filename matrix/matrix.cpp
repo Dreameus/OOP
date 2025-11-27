@@ -2,6 +2,8 @@
 #include <random>
 #include "matrix.h"
 
+int matrix::count = 0;
+
 matrix::matrix(int r, int c)
 {
     rows = r;
@@ -11,6 +13,7 @@ matrix::matrix(int r, int c)
     {
         matrixData[i] = new int[cols];
     }
+    count++;
 }
 
 matrix::matrix(const matrix& other)
@@ -29,6 +32,7 @@ matrix::matrix(const matrix& other)
     }
 
     std::cout << "Copy constructor called" << std::endl;
+    count++;
 }
 
 matrix& matrix::operator=(const matrix& other)
@@ -235,4 +239,9 @@ matrix& matrix::operator=(matrix&& other)
         other.cols = 0;
     }
     return *this;
+}
+
+int matrix::getCount()
+{
+    return count;
 }
