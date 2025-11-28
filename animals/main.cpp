@@ -54,6 +54,36 @@ public:
         }
         return *this;
     }
+
+    bool operator==(const animal& other) const
+    {
+        return weight == other.weight;
+    }
+
+    bool operator>(const animal& other) const
+    {
+        return weight > other.weight;
+    }
+
+    bool operator<(const animal& other) const
+    {
+        return weight < other.weight;
+    }
+
+    bool operator>=(const animal& other) const
+    {
+        return weight >= other.weight;
+    }
+
+    bool operator<=(const animal& other) const
+    {
+        return weight <= other.weight;
+    }
+
+    bool operator!=(const animal& other) const
+    {
+        return weight != other.weight;
+    }
 };
 
 class dog : public animal {
@@ -339,6 +369,13 @@ int main() {
     zoo.addAnimal(&t);
 
     zoo.printAnimals();
+
+    std::cout << (d < c) << std::endl;
+    std::cout << (d > c) << std::endl;
+    std::cout << (d <= c) << std::endl;
+    std::cout << (d >= c) << std::endl;
+    std::cout << (d == c) << std::endl;
+    std::cout << (d != c) << std::endl;
 
     return 0;
 }
